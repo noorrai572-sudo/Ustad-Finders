@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<!-- 
+  UstadFinder — Pakistan's Trusted Skill Marketplace
+  Created by: Noor-ul-huda
+  DecodeLabs Full Stack Internship · Batch 2026
+  Project 1: Responsive Frontend Interface
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UstadFinder — Pakistan's trusted skill marketplace. Find verified local electricians, plumbers, AC technicians, painters, and carpenters near you in Lahore, Karachi, Islamabad, Faisalabad and more." />
+  <meta name="keywords" content="electrician near me, plumber Pakistan, AC repair Lahore, skilled workers Pakistan, UstadFinder" />
+  <meta name="author" content="Noor-ul-huda" />
+  <title>UstadFinder — Find Skilled Workers Near You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+/*
+  UstadFinder — Style Sheet
+  Author: Noor-ul-huda
+  DecodeLabs Full Stack Internship · Batch 2026
+*/
+
+    /* RESET & BASE */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --mocha:     #A5856E;
+      --mocha-dk:  #7A5C46;
+      --mocha-lt:  #D9C4B5;
+      --blue:      #A0D4E0;
+      --blue-dk:   #5BAABF;
+      --blue-lt:   #DDF1F6;
+      --grey:      #F2F0EA;
+      --grey-dk:   #D4D0C8;
+      --dark:      #2C2520;
+      --text:      #3D3530;
+      --text-muted:#7A6F68;
+      --white:     #FFFFFF;
+      --radius:    10px;
+      --radius-lg: 16px;
+      --shadow:    0 4px 24px rgba(44,37,32,0.10);
+      --shadow-sm: 0 2px 10px rgba(44,37,32,0.08);
+      --transition:0.28s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4 { font-family: 'Montserrat', sans-serif; line-height: 1.25; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+
+    /* UTILITIES */
+    .container  { width: 90%; max-width: 1160px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--mocha);
+      background: #F2EBE5;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 99px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: var(--transition);
+    }
+    .btn-primary {
+      background: var(--mocha);
+      color: var(--white);
+      box-shadow: 0 4px 18px rgba(165,133,110,0.35);
+    }
+    .btn-primary:hover { background: var(--mocha-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(165,133,110,0.40); }
+    .btn-outline {
+      background: transparent;
+      color: var(--mocha);
+      border: 2px solid var(--mocha);
+    }
+    .btn-outline:hover { background: var(--mocha); color: var(--white); transform: translateY(-2px); }
+
+    /* NAVBAR */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      transition: var(--transition);
+      padding: 20px 0;
+    }
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      padding: 12px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--mocha);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--dark); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-family: 'Montserrat', sans-serif;
+      position: relative;
+      transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--mocha);
+      border-radius: 2px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--mocha); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-cta { font-size: 14px !important; padding: 9px 22px !important; font-family: 'Montserrat', sans-serif; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav overlay */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.97);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--dark);
+      transition: color var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--mocha); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg,
+          rgba(253,248,245,0.93) 0%,
+          rgba(238,247,250,0.85) 50%,
+          rgba(44,37,32,0.72) 100%),
+        url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=85&auto=format&fit=crop') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(253,248,245,0.15) 0%,
+        rgba(160,212,224,0.08) 60%,
+        rgba(44,37,32,0.35) 100%
+      );
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .eyebrow-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--mocha);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity:1; }
+      50%      { transform: scale(1.4); opacity:.7; }
+    }
+    .eyebrow-text {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mocha);
+      font-family: 'Montserrat', sans-serif;
+    }
+    .hero-h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+    .typewriter-line {
+      color: var(--mocha);
+      display: block;
+      min-height: 1.2em;
+    }
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: .85em;
+      background: var(--mocha);
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink .75s steps(1) infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      margin: 20px 0 36px;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid var(--grey-dk);
+    }
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--mocha);
+    }
+    .stat-lbl { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card-main {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      width: 100%;
+      max-width: 340px;
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(165,133,110,0.12);
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--grey);
+      border-radius: 99px;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+    }
+    .search-icon { font-size: 18px; }
+    .search-input-fake {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-family: 'Roboto', sans-serif;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cat-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--grey-dk);
+      background: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .cat-btn:hover, .cat-btn.active {
+      border-color: var(--mocha);
+      background: #FAF4F0;
+      color: var(--mocha);
+    }
+    .cat-icon { font-size: 20px; }
+    .floating-badge {
+      position: absolute;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(165,133,110,0.10);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .badge-top {
+      top: -24px; right: -24px;
+      animation-delay: 0s;
+    }
+    .badge-bot {
+      bottom: -24px; left: -24px;
+      animation-delay: 1.5s;
+    }
+    .badge-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .badge-text { font-size: 13px; font-weight: 500; font-family:'Montserrat',sans-serif; color:var(--dark); }
+    .badge-sub  { font-size: 11px; color: var(--text-muted); }
+
+    /* SEARCH BAR */
+    #search {
+      background: var(--dark);
+      padding: 28px 0;
+    }
+    .search-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-field {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 99px;
+      padding: 14px 20px;
+    }
+    .search-field svg { opacity: .5; flex-shrink: 0; }
+    .search-field input {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--white);
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+      width: 100%;
+    }
+    .search-field input::placeholder { color: rgba(255,255,255,0.4); }
+    .search-btn {
+      background: var(--mocha);
+      color: var(--white);
+      border-radius: 99px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .search-btn:hover { background: var(--mocha-dk); }
+
+    /* SERVICES / WORKERS */
+    #services { padding: 100px 0; background: var(--white); }
+    .services-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .filter-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      padding: 8px 20px;
+      border-radius: 99px;
+      border: 1.5px solid var(--grey-dk);
+      background: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-pill:hover { border-color: var(--mocha); color: var(--mocha); }
+    .filter-pill.active {
+      background: var(--mocha);
+      border-color: var(--mocha);
+      color: var(--white);
+    }
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .worker-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--grey-dk);
+      padding: 24px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .worker-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--mocha);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+      transform-origin: left;
+    }
+    .worker-card:hover { box-shadow: var(--shadow); border-color: var(--mocha-lt); transform: translateY(-4px); }
+    .worker-card:hover::before { transform: scaleX(1); }
+    .worker-card[style*="display: none"] { display: none !important; }
+    .worker-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .worker-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .worker-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .worker-service {
+      font-size: 13px;
+      color: var(--mocha);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .worker-verified {
+      margin-left: auto;
+      background: #E8F5E9;
+      color: #2E7D32;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .worker-stars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .star { color: #F59E0B; font-size: 14px; }
+    .rating-text { font-size: 13px; color: var(--text-muted); margin-left: 4px; }
+    .worker-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .info-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--grey);
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+    .worker-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+    .worker-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .worker-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .worker-price span { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+    .btn-contact {
+      background: var(--mocha);
+      color: var(--white);
+      border-radius: 99px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: var(--transition);
+    }
+    .btn-contact:hover { background: var(--mocha-dk); }
+
+    /* HOW IT WORKS */
+    #how { padding: 100px 0; background: var(--grey); }
+    .how-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .steps-list { display: flex; flex-direction: column; gap: 0; }
+    .step-item {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--grey-dk);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-item:hover .step-circle { background: var(--mocha); color: var(--white); }
+    .step-circle {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--grey-dk);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--mocha);
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .step-item.active .step-circle {
+      background: var(--mocha);
+      color: var(--white);
+      border-color: var(--mocha);
+    }
+    .step-content-text h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .step-content-text p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .how-visual {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(165,133,110,0.12);
+    }
+    .app-screen-mock {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .mock-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--grey-dk);
+    }
+    .mock-logo { font-size: 15px; font-weight: 700; color: var(--mocha); font-family: 'Montserrat', sans-serif; }
+    .mock-pills { display: flex; gap: 6px; }
+    .mock-pill {
+      width: 30px; height: 8px;
+      border-radius: 4px;
+      background: var(--grey-dk);
+    }
+    .mock-pill.active { background: var(--mocha); width: 44px; }
+    .mock-worker-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--grey-dk);
+      transition: var(--transition);
+    }
+    .mock-worker-row:hover { border-color: var(--mocha-lt); background: #FAF4F0; }
+    .mock-av {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .mock-lines { flex: 1; }
+    .mock-line { height: 7px; border-radius: 4px; background: var(--grey-dk); margin-bottom: 5px; }
+    .mock-line.name { width: 60%; background: var(--dark); opacity: .25; }
+    .mock-line.sub  { width: 40%; }
+    .mock-btn-sm {
+      background: var(--mocha);
+      color: var(--white);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      flex-shrink: 0;
+    }
+
+    /* TESTIMONIALS */
+    #testimonials { padding: 100px 0; background: var(--white); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .testi-card {
+      background: var(--grey);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      border: 1px solid transparent;
+      transition: var(--transition);
+    }
+    .testi-card:hover { border-color: var(--mocha-lt); box-shadow: var(--shadow-sm); }
+    .quote-mark {
+      font-size: 48px;
+      line-height: 1;
+      color: var(--mocha-lt);
+      font-family: Georgia, serif;
+      margin-bottom: 12px;
+    }
+    .testi-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testi-av {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .testi-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .testi-loc { font-size: 12px; color: var(--text-muted); }
+
+    /* CONTACT SECTION */
+    #contact { padding: 100px 0; background: var(--dark); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-left .section-tag { background: rgba(165,133,110,0.25); color: var(--mocha-lt); }
+    .contact-left .section-title { color: var(--white); }
+    .contact-left .section-sub { color: rgba(255,255,255,0.55); }
+    .contact-info { margin-top: 40px; display: flex; flex-direction: column; gap: 18px; }
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .contact-ico {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(165,133,110,0.20);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .contact-row-text strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+    }
+    .contact-row-text span { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .contact-form {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius);
+      padding: 13px 16px;
+      font-size: 15px;
+      color: var(--white);
+      font-family: 'Roboto', sans-serif;
+      outline: none;
+      transition: border-color var(--transition);
+      -webkit-appearance: none;
+    }
+    .form-group select option { background: var(--dark); color: var(--white); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--mocha);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .submit-btn {
+      width: 100%;
+      background: var(--mocha);
+      color: var(--white);
+      border-radius: 99px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: var(--transition);
+      margin-top: 4px;
+    }
+    .submit-btn:hover { background: var(--mocha-dk); transform: translateY(-2px); }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 24px;
+    }
+    .form-success .success-icon { font-size: 48px; margin-bottom: 12px; }
+    .form-success p {
+      color: rgba(255,255,255,0.7);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .form-success strong { color: var(--white); }
+
+    /* FOOTER */
+    footer {
+      background: #1C1512;
+      padding: 48px 0 28px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding-bottom: 28px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-logo { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; color: var(--mocha); }
+    .footer-links-list { display: flex; gap: 28px; flex-wrap: wrap; }
+    .footer-links-list a { font-size: 13px; color: rgba(255,255,255,0.45); transition: color var(--transition); }
+    .footer-links-list a:hover { color: var(--mocha-lt); }
+    .footer-social { display: flex; gap: 12px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      color: rgba(255,255,255,0.45);
+      transition: var(--transition);
+    }
+    .social-btn:hover { border-color: var(--mocha); color: var(--mocha); }
+    .footer-copy {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* SCROLL TO TOP BTN */
+    #scrollTop {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      width: 44px; height: 44px;
+      background: var(--mocha);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(165,133,110,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      z-index: 999;
+      cursor: pointer;
+      border: none;
+    }
+    #scrollTop.show { opacity: 1; pointer-events: auto; }
+    #scrollTop:hover { background: var(--mocha-dk); transform: translateY(-3px); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-inner       { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual      { display: none; }
+      .how-inner        { grid-template-columns: 1fr; gap: 40px; }
+      .contact-inner    { grid-template-columns: 1fr; gap: 48px; }
+      .nav-links        { display: none; }
+      .hamburger        { display: flex; }
+    }
+    @media (max-width: 640px) {
+      #hero             { padding: 100px 0 60px; }
+      .hero-stats       { gap: 20px; flex-wrap: wrap; }
+      .hero-btns        { flex-direction: column; }
+      .btn              { justify-content: center; }
+      .form-row         { grid-template-columns: 1fr; }
+      .services-header  { flex-direction: column; align-items: flex-start; }
+      .footer-inner     { flex-direction: column; align-items: flex-start; }
+      .search-row       { flex-direction: column; }
+      .search-btn       { width: 100%; }
+    }
+
+    /* ANIMATIONS */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* keyboard focus ring */
+    :focus-visible {
+      outline: 2px solid var(--mocha);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-in { opacity: 1; transform: none; }
+    }
+  </style>
+
+</head>
+<body>
+
+<!-- navbar -->
+<nav id="navbar" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="#hero" class="logo">Ustad<span>Finder</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta" style="display:none" id="navCta">Post a Job</a>
+    <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav overlay -->
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+  <a href="#services"      onclick="closeMobileNav()">Services</a>
+  <a href="#how"           onclick="closeMobileNav()">How It Works</a>
+  <a href="#testimonials"  onclick="closeMobileNav()">Reviews</a>
+  <a href="#contact"       onclick="closeMobileNav()">Contact</a>
+  <a href="#contact" class="btn btn-primary" onclick="closeMobileNav()">Post a Job</a>
+</div>
+
+<!-- hero -->
+<section id="hero" aria-label="Hero section">
+  <div class="container hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-dot" aria-hidden="true"></div>
+        <span class="eyebrow-text">Pakistan's Skill Marketplace</span>
+      </div>
+      <h1 class="hero-h1">
+        Find Trusted
+        <span class="typewriter-line" id="typewriter" aria-live="polite"></span>
+        Near You
+      </h1>
+      <p class="hero-sub">
+        Connect with verified local electricians, plumbers, AC technicians, painters and more — in Lahore, Karachi, Islamabad and across Pakistan.
+      </p>
+      <div class="hero-btns">
+        <a href="#services" class="btn btn-primary">Find a Worker</a>
+        <a href="#how"      class="btn btn-outline">How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num" data-count="1200" data-suffix="+">0</div>
+          <div class="stat-lbl">Verified Workers</div>
+        </div>
+        <div>
+          <div class="stat-num" data-count="8400" data-suffix="+">0</div>
+          <div class="stat-lbl">Jobs Completed</div>
+        </div>
+        <div>
+          <div class="stat-num" data-count="98" data-suffix="%">0</div>
+          <div class="stat-lbl">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-card-main">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <span class="search-input-fake">Search service or city…</span>
+        </div>
+        <div class="category-grid">
+          <button class="cat-btn active"><span class="cat-icon">⚡</span>Electrician</button>
+          <button class="cat-btn"><span class="cat-icon">🔧</span>Plumber</button>
+          <button class="cat-btn"><span class="cat-icon">❄️</span>AC Repair</button>
+          <button class="cat-btn"><span class="cat-icon">🎨</span>Painter</button>
+        </div>
+        <div class="floating-badge badge-top">
+          <div class="badge-avatar" style="background:#E8F5E9">✅</div>
+          <div>
+            <div class="badge-text">Khalid Verified</div>
+            <div class="badge-sub">Electrician · Lahore</div>
+          </div>
+        </div>
+        <div class="floating-badge badge-bot">
+          <div class="badge-avatar" style="background:#FFF3E0">⭐</div>
+          <div>
+            <div class="badge-text">4.9 Rating</div>
+            <div class="badge-sub">23 jobs this month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- search bar -->
+<div id="search" aria-label="Quick search">
+  <div class="container">
+    <div class="search-row">
+      <div class="search-field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="workerSearch" placeholder="Search by name, service…" aria-label="Search workers" />
+      </div>
+      <div class="search-field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <input type="text" id="citySearch" placeholder="City (e.g. Lahore, Karachi)" aria-label="Filter by city" />
+      </div>
+      <button class="search-btn" onclick="runSearch()" aria-label="Search workers">Search Workers</button>
+    </div>
+  </div>
+</div>
+
+<!-- workers grid -->
+<section id="services" aria-label="Worker listings">
+  <div class="container">
+    <div style="margin-bottom:36px;border-radius:16px;overflow:hidden;max-height:220px;position:relative;" class="fade-in">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80&auto=format&fit=crop" alt="Skilled workers team" style="width:100%;object-fit:cover;max-height:220px;display:block;border-radius:16px;" />
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(44,37,32,0.65) 0%,rgba(44,37,32,0.1) 100%);border-radius:16px;display:flex;align-items:center;padding:0 36px;">
+        <div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mocha-lt);margin-bottom:8px;">Trusted Professionals</div>
+          <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:#fff;line-height:1.2;">Meet Your Ustads</h2>
+        </div>
+      </div>
+    </div>
+    <div class="services-header fade-in">
+      <div>
+        <span class="section-tag">Our Workers</span>
+        <h2 class="section-title">Skilled Professionals<br>Ready to Help</h2>
+      </div>
+      <div class="filter-pills" role="group" aria-label="Filter by category">
+        <button class="filter-pill active" onclick="filterWorkers('all',this)">All</button>
+        <button class="filter-pill" onclick="filterWorkers('electrician',this)">Electrician</button>
+        <button class="filter-pill" onclick="filterWorkers('plumber',this)">Plumber</button>
+        <button class="filter-pill" onclick="filterWorkers('ac',this)">AC Repair</button>
+        <button class="filter-pill" onclick="filterWorkers('painter',this)">Painter</button>
+        <button class="filter-pill" onclick="filterWorkers('carpenter',this)">Carpenter</button>
+      </div>
+    </div>
+
+    <div class="workers-grid" id="workersGrid">
+
+      <article class="worker-card fade-in" data-category="electrician" data-name="khalid mehmood" data-city="lahore">
+        <div class="worker-head">
+          <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=120&h=120&q=80&auto=format&fit=crop&crop=face" class="worker-avatar" alt="Khalid Mehmood" style="object-fit:cover;" />
+          <div>
+            <div class="worker-name">Khalid Mehmood</div>
+            <div class="worker-service">⚡ Electrician</div>
+          </div>
+          <span class="worker-verified">✓ Verified</span>
+        </div>
+        <div class="worker-stars" aria-label="Rating 4.9 out of 5">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <span class="rating-text">4.9 (78 reviews)</span>
+        </div>
+        <div class="worker-info">
+          <span class="info-chip">📍 Lahore</span>
+          <span class="info-chip">🕐 8 yrs exp</span>
+          <span class="info-chip">⚡ Wiring, Faults</span>
+        </div>
+        <p class="worker-desc">Specialist in home and commercial wiring, load balancing, and fault detection. Available 7 days a week.</p>
+        <div class="worker-footer">
+          <div class="worker-price">Rs 800 <span>/ hour</span></div>
+          <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+      </article>
+
+      <article class="worker-card fade-in" data-category="plumber" data-name="aslam plumber" data-city="karachi">
+        <div class="worker-head">
+          <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=120&h=120&q=80&auto=format&fit=crop&crop=face" class="worker-avatar" alt="Aslam Raza" style="object-fit:cover;" />
+          <div>
+            <div class="worker-name">Aslam Raza</div>
+            <div class="worker-service">🔧 Plumber</div>
+          </div>
+          <span class="worker-verified">✓ Verified</span>
+        </div>
+        <div class="worker-stars" aria-label="Rating 4.8 out of 5">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span>
+          <span class="rating-text">4.8 (55 reviews)</span>
+        </div>
+        <div class="worker-info">
+          <span class="info-chip">📍 Karachi</span>
+          <span class="info-chip">🕐 12 yrs exp</span>
+          <span class="info-chip">🔧 Pipes, Leaks</span>
+        </div>
+        <p class="worker-desc">Expert in pipe fitting, leak detection, bathroom fitting and drainage systems. Same-day emergency service.</p>
+        <div class="worker-footer">
+          <div class="worker-price">Rs 700 <span>/ hour</span></div>
+          <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+      </article>
+
+      <article class="worker-card fade-in" data-category="ac" data-name="tariq ac repair" data-city="islamabad">
+        <div class="worker-head">
+          <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=120&h=120&q=80&auto=format&fit=crop&crop=face" class="worker-avatar" alt="Tariq Hussain" style="object-fit:cover;" />
+          <div>
+            <div class="worker-name">Tariq Hussain</div>
+            <div class="worker-service">❄️ AC Technician</div>
+          </div>
+          <span class="worker-verified">✓ Verified</span>
+        </div>
+        <div class="worker-stars" aria-label="Rating 5 out of 5">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <span class="rating-text">5.0 (102 reviews)</span>
+        </div>
+        <div class="worker-info">
+          <span class="info-chip">📍 Islamabad</span>
+          <span class="info-chip">🕐 6 yrs exp</span>
+          <span class="info-chip">❄️ Service, Gas</span>
+        </div>
+        <p class="worker-desc">Certified AC technician for all major brands. Servicing, gas refilling, installation and repair.</p>
+        <div class="worker-footer">
+          <div class="worker-price">Rs 1200 <span>/ visit</span></div>
+          <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+      </article>
+
+      <article class="worker-card fade-in" data-category="painter" data-name="faisal painter" data-city="lahore">
+        <div class="worker-head">
+          <img src="https://images.unsplash.com/photo-1588964895597-cfccd6e2dbf9?w=120&h=120&q=80&auto=format&fit=crop&crop=face" class="worker-avatar" alt="Faisal Ahmed" style="object-fit:cover;" />
+          <div>
+            <div class="worker-name">Faisal Ahmed</div>
+            <div class="worker-service">🎨 Painter</div>
+          </div>
+        </div>
+        <div class="worker-stars" aria-label="Rating 4.2 out of 5">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span>
+          <span class="rating-text">4.2 (17 reviews)</span>
+        </div>
+        <div class="worker-info">
+          <span class="info-chip">📍 Lahore</span>
+          <span class="info-chip">🕐 10 yrs exp</span>
+          <span class="info-chip">🎨 Interior, Exterior</span>
+        </div>
+        <p class="worker-desc">Professional painter specialising in interior and exterior walls, waterproofing and decorative finishes.</p>
+        <div class="worker-footer">
+          <div class="worker-price">Rs 600 <span>/ hour</span></div>
+          <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+      </article>
+
+      <article class="worker-card fade-in" data-category="carpenter" data-name="imran butt carpenter" data-city="karachi">
+        <div class="worker-head">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&h=120&q=80&auto=format&fit=crop&crop=face" class="worker-avatar" alt="Imran Butt" style="object-fit:cover;" />
+          <div>
+            <div class="worker-name">Imran Butt</div>
+            <div class="worker-service">🪵 Carpenter</div>
+          </div>
+          <span class="worker-verified">✓ Verified</span>
+        </div>
+        <div class="worker-stars" aria-label="Rating 4.9 out of 5">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <span class="rating-text">4.9 (61 reviews)</span>
+        </div>
+        <div class="worker-info">
+          <span class="info-chip">📍 Karachi</span>
+          <span class="info-chip">🕐 15 yrs exp</span>
+          <span class="info-chip">🪵 Furniture, Doors</span>
+        </div>
+        <p class="worker-desc">Master carpenter for custom furniture, door fitting, wooden flooring and kitchen cabinets.</p>
+        <div class="worker-footer">
+          <div class="worker-price">Rs 1000 <span>/ hour</span></div>
+          <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+      </article>
+
+      <article class="worker-card fade-in" data-category="electrician" data-name="saeed electrician" data-city="islamabad">
+        <div class="worker-head">
+          <img src="https://images.unsplash.com/photo-1594818379496-da1e345b0ded?w=120&h=120&q=80&auto=format&fit=crop&crop=face" class="worker-avatar" alt="Saeed Akhtar" style="object-fit:cover;" />
+          <div>
+            <div class="worker-name">Saeed Akhtar</div>
+            <div class="worker-service">⚡ Electrician</div>
+          </div>
+        </div>
+        <div class="worker-stars" aria-label="Rating 4.4 out of 5">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span>
+          <span class="rating-text">4.4 (23 reviews)</span>
+        </div>
+        <div class="worker-info">
+          <span class="info-chip">📍 Islamabad</span>
+          <span class="info-chip">🕐 5 yrs exp</span>
+          <span class="info-chip">⚡ Solar, UPS</span>
+        </div>
+        <p class="worker-desc">Specialist in solar panel installation, UPS systems and home automation. Licensed and insured.</p>
+        <div class="worker-footer">
+          <div class="worker-price">Rs 1000 <span>/ hour</span></div>
+          <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+      </article>
+
+    </div>
+
+    <p id="noResults" style="display:none;text-align:center;padding:48px 0;color:var(--text-muted);font-size:16px">
+      No workers found matching your search. Try a different keyword or city.
+    </p>
+  </div>
+</section>
+
+<!-- how it works -->
+<section id="how" aria-label="How it works">
+  <div class="container">
+    <div class="how-inner">
+      <div>
+        <span class="section-tag">Simple Process</span>
+        <h2 class="section-title">Get Help in<br>3 Easy Steps</h2>
+        <p class="section-sub" style="margin-bottom:36px">No calls, no hassle. Find your ustad, describe your problem, and get it fixed.</p>
+        <div class="steps-list">
+          <div class="step-item active">
+            <div class="step-circle">1</div>
+            <div class="step-content-text">
+              <h3>Search Your Service</h3>
+              <p>Browse by category or search by name and city. Filter by rating, experience, or price.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">2</div>
+            <div class="step-content-text">
+              <h3>Send a Job Request</h3>
+              <p>Fill in the contact form with your issue details. We match you with the right worker instantly.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">3</div>
+            <div class="step-content-text">
+              <h3>Get It Fixed</h3>
+              <p>Your verified ustad arrives, completes the job, and you pay only after you're satisfied.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-visual fade-in" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Skilled worker on the job" style="width:100%;border-radius:12px;margin-bottom:16px;max-height:180px;object-fit:cover;display:block;" />
+        <div class="app-screen-mock">
+          <div class="mock-topbar">
+            <span class="mock-logo">UstadFinder</span>
+            <div class="mock-pills">
+              <div class="mock-pill active"></div>
+              <div class="mock-pill"></div>
+              <div class="mock-pill"></div>
+            </div>
+          </div>
+          <div style="background:var(--grey);border-radius:8px;padding:12px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:16px">🔍</span>
+            <span style="font-size:13px;color:var(--text-muted)">AC Repair — Lahore</span>
+          </div>
+          <div class="mock-worker-row">
+            <div class="mock-av" style="background:#E0F7FA"></div>
+            <div class="mock-lines"><div class="mock-line name"></div><div class="mock-line sub"></div></div>
+            <span style="color:#F59E0B;font-size:12px">★ 5.0</span>
+            <div class="mock-btn-sm">Book</div>
+          </div>
+          <div class="mock-worker-row">
+            <div class="mock-av" style="background:#FFF3E0"></div>
+            <div class="mock-lines"><div class="mock-line name"></div><div class="mock-line sub"></div></div>
+            <span style="color:#F59E0B;font-size:12px">★ 4.8</span>
+            <div class="mock-btn-sm">Book</div>
+          </div>
+          <div class="mock-worker-row">
+            <div class="mock-av" style="background:#E8F5E9"></div>
+            <div class="mock-lines"><div class="mock-line name"></div><div class="mock-line sub"></div></div>
+            <span style="color:#F59E0B;font-size:12px">★ 4.9</span>
+            <div class="mock-btn-sm">Book</div>
+          </div>
+          <div style="background:var(--mocha);border-radius:8px;padding:14px;text-align:center">
+            <span style="font-size:13px;font-weight:600;color:white;font-family:'Montserrat',sans-serif">Job Confirmed ✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- testimonials -->
+<section id="testimonials" aria-label="Customer reviews">
+  <div class="container">
+    <div class="fade-in" style="text-align:center">
+      <span class="section-tag">Reviews</span>
+      <h2 class="section-title">What Our Customers Say</h2>
+      <p class="section-sub" style="margin:0 auto">Real stories from real people across Pakistan who found their ustad through us.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-in">
+        <div class="quote-mark">"</div>
+        <p class="testi-text">Found a good electrician in under 10 minutes. He arrived a bit late but fixed our wiring issue the same day. Happy with the result overall.</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&q=80&auto=format&fit=crop&crop=face" class="testi-av" alt="Sana Ahmed" style="object-fit:cover;" />
+          <div><div class="testi-name">Sana Ahmed</div><div class="testi-loc">📍 Lahore</div></div>
+        </div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="quote-mark">"</div>
+        <p class="testi-text">Our AC was dead in June. Within 2 hours, Tariq bhai had it running. Verified, professional, and affordable.</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&q=80&auto=format&fit=crop&crop=face" class="testi-av" alt="Omar Malik" style="object-fit:cover;" />
+          <div><div class="testi-name">Omar Malik</div><div class="testi-loc">📍 Islamabad</div></div>
+        </div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="quote-mark">"</div>
+        <p class="testi-text">As a landlord managing multiple flats, UstadFinder has saved me so much time. All my go-to workers are here.</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&q=80&auto=format&fit=crop&crop=face" class="testi-av" alt="Zainab Qureshi" style="object-fit:cover;" />
+          <div><div class="testi-name">Zainab Qureshi</div><div class="testi-loc">📍 Karachi</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- contact -->
+<section id="contact" aria-label="Contact and booking">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-left fade-in">
+        <img src="https://images.unsplash.com/photo-1596496050755-c923e73e42e1?w=600&q=80&auto=format&fit=crop" alt="Pakistan city" style="width:100%;border-radius:12px;margin-bottom:28px;max-height:160px;object-fit:cover;display:block;opacity:0.85;" />
+        <span class="section-tag">Post a Job</span>
+        <h2 class="section-title">Tell Us What<br>You Need Fixed</h2>
+        <p class="section-sub">Describe your problem and we'll connect you with the best ustad in your city.</p>
+        <div class="contact-info">
+          <div class="contact-row">
+            <div class="contact-ico">📞</div>
+            <div class="contact-row-text">
+              <strong>Call Us</strong>
+              <span>+92 311 4782930</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-ico">💬</div>
+            <div class="contact-row-text">
+              <strong>WhatsApp</strong>
+              <span>+92 333 8561204</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-ico">📧</div>
+            <div class="contact-row-text">
+              <strong>Email</strong>
+              <span>hello@ustadfinder.com</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-ico">📍</div>
+            <div class="contact-row-text">
+              <strong>Coverage</strong>
+              <span>Lahore · Karachi · Islamabad · Faisalabad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form fade-in">
+        <form id="jobForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">Your Name *</label>
+              <input type="text" id="fname" placeholder="e.g. Ali Hassan" required />
+            </div>
+            <div class="form-group">
+              <label for="fphone">Phone / WhatsApp *</label>
+              <input type="tel" id="fphone" placeholder="+92 300 …" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fcity">Your City *</label>
+            <select id="fcity" required>
+              <option value="">Select your city</option>
+              <option>Lahore</option>
+              <option>Karachi</option>
+              <option>Islamabad</option>
+              <option>Faisalabad</option>
+              <option>Rawalpindi</option>
+              <option>Multan</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fservice">Service Needed *</label>
+            <select id="fservice" required>
+              <option value="">Select a service</option>
+              <option>Electrician</option>
+              <option>Plumber</option>
+              <option>AC Repair / Installation</option>
+              <option>Painter</option>
+              <option>Carpenter</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fdesc">Describe Your Issue *</label>
+            <textarea id="fdesc" placeholder="e.g. AC is not cooling, fan stopped working…" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Job Request →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✅</div>
+          <p><strong>Request Received!</strong><br>We'll match you with the best ustad in your city within 30 minutes. Check your WhatsApp for confirmation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer aria-label="Site footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Ustad<span style="color:rgba(255,255,255,0.4)">Finder</span></div>
+      <ul class="footer-links-list" role="list">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Post a Job</a></li>
+      </ul>
+      <div class="footer-social" aria-label="Social links">
+        <button class="social-btn" aria-label="Facebook">f</button>
+        <button class="social-btn" aria-label="Instagram">ig</button>
+        <button class="social-btn" aria-label="WhatsApp">wa</button>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 UstadFinder · Pakistan's Trusted Skill Marketplace · Designed & Built by <strong style="color:var(--mocha-lt)">Noor-ul-huda</strong> · DecodeLabs Batch 2026</p>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button id="scrollTop" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- scripts -->
+<script>
+/*
+  UstadFinder — Main Script
+  Author: Noor-ul-huda
+  DecodeLabs Full Stack Internship · Batch 2026
+*/
+
+// typewriter
+const words = ['Electricians','Plumbers','AC Technicians','Painters','Carpenters'];
+let wi = 0, ci = 0, deleting = false;
+const el = document.getElementById('typewriter');
+
+function type() {
+  const word = words[wi];
+  if (!deleting) {
+    el.innerHTML = word.slice(0, ++ci) + '<span class="cursor" aria-hidden="true"></span>';
+    if (ci === word.length) { deleting = true; setTimeout(type, 1600); return; }
+  } else {
+    el.innerHTML = word.slice(0, --ci) + '<span class="cursor" aria-hidden="true"></span>';
+    if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+  }
+  setTimeout(type, deleting ? 60 : 100);
+}
+type();
+
+// navbar scroll
+const navbar = document.getElementById('navbar');
+const navCta = document.getElementById('navCta');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    navbar.classList.add('scrolled');
+    navCta.style.display = 'inline-flex';
+  } else {
+    navbar.classList.remove('scrolled');
+    navCta.style.display = 'none';
+  }
+
+  /* Active nav links */
+  const sections = ['hero','services','how','testimonials','contact'];
+  let current = '';
+  sections.forEach(id => {
+    const sec = document.getElementById(id);
+    if (sec && window.scrollY >= sec.offsetTop - 100) current = id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+
+  /* Scroll top btn */
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+});
+
+// mobile menu toggle
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+hamburger.addEventListener('click', () => {
+  const open = mobileNav.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+function closeMobileNav() {
+  mobileNav.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+// filter pills
+function filterWorkers(cat, btn) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.worker-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const show = cat === 'all' || c.dataset.category === cat;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+// live search
+function runSearch() {
+  const name = document.getElementById('workerSearch').value.toLowerCase();
+  const city = document.getElementById('citySearch').value.toLowerCase();
+  const cards = document.querySelectorAll('.worker-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const matchName = !name || c.dataset.name.includes(name);
+    const matchCity = !city || c.dataset.city.includes(city);
+    c.style.display = matchName && matchCity ? '' : 'none';
+    if (matchName && matchCity) visible++;
+  });
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('.filter-pill').classList.add('active');
+  document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+}
+document.getElementById('workerSearch').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+document.getElementById('citySearch').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+
+// hero category btns
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// steps interaction
+document.querySelectorAll('.step-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.step-item').forEach(s => s.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// counter animation
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || '+';
+    let current = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.round(current).toLocaleString() + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 20);
+  });
+}
+let countersRun = false;
+
+// intersection observer - fade-ins + trigger counters
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      if (!countersRun && entry.target.closest('#hero')) {
+        countersRun = true;
+        setTimeout(animateCounters, 400);
+      }
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* Start hero counters after a short delay anyway */
+setTimeout(() => { if (!countersRun) { countersRun = true; animateCounters(); } }, 800);
+
+// form submit handler
+document.getElementById('jobForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const name    = document.getElementById('fname').value.trim();
+  const phone   = document.getElementById('fphone').value.trim();
+  const city    = document.getElementById('fcity').value;
+  const service = document.getElementById('fservice').value;
+  const desc    = document.getElementById('fdesc').value.trim();
+  if (!name || !phone || !city || !service || !desc) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+  this.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+});
+
+</script>
+
+</body>
+</html>
